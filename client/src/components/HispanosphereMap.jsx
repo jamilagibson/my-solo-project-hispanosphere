@@ -10,7 +10,29 @@ import countriesPlusOneTerritory from '../data/countriesPlusOneTerritory'
 //define functional component
 const HispanosphereMap = () => {
 
-    // add helper func getPopUpMessage to handle P.R. separately
+    // add helper func getPopUpMessage for 3 different cases
+    const getPopupMessage = (country) => {
+        
+    //empty 'message' string to be re-assigned based on conditional
+    let message = "";
+
+    if (country.name === "Puerto Rico") {
+    message = "Aha! Puerto Rico is a U.S. Territory—NOT a country.";
+    } else {
+    message = country.official
+      ? "Official Spanish-speaking country"
+      : "Significant Spanish influence";
+    }
+
+  //Return shared JSX using that message
+  return (
+    <>
+      {country.flag} {country.name} <br />
+      {message} <br />
+      Click <a href={`/explore/${country.code}`} className="text-blue-600 underline">here </a> to learn more!
+    </>
+  );
+};
 
     return (
         //initialize MapContainer as main wrapper for map
@@ -37,13 +59,10 @@ const HispanosphereMap = () => {
             {countriesPlusOneTerritory.map((country, index) => (
                 <Marker key={index} position={ [country.lat, country.lng]}>
                     <Popup>
-                        {country.flag} {country.name} <br />
-                        {country.official ? 'Official Spanish-speaking country' : 'Significant Spanish influence'} <br />
-                        {'Click here to learn more!'}
+                        {getPopupMessage(country)};
                     </Popup>
                 </Marker>
             ))}
-            {/* add marker/pin for Madrid */}
            
         </MapContainer>
     );
@@ -51,3 +70,7 @@ const HispanosphereMap = () => {
 
 // Export component to be used in App.jsx
 export default HispanosphereMap;
+
+// {country.flag} {country.name} <br />
+//                         {country.official ? 'Official Spanish-speaking country' : 'Significant Spanish influence'} <br />
+//                         {'Click here to learn more!'}

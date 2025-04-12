@@ -1,4 +1,4 @@
-// data/countries.js
+
 const countriesPlusOneTerritory = [
     // ✅ Official Spanish-speaking countries (21)
     { name: "Spain", lat: 40.4168, lng: -3.7038, flag: "🇪🇸", official: true },
