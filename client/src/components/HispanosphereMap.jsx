@@ -9,6 +9,9 @@ import countriesPlusOneTerritory from '../data/countriesPlusOneTerritory'
 
 //define functional component
 const HispanosphereMap = () => {
+
+    // add helper func getPopUpMessage to handle P.R. separately
+
     return (
         //initialize MapContainer as main wrapper for map
         //center: determines lat/lng where map initially loads
@@ -34,6 +37,7 @@ const HispanosphereMap = () => {
             {countriesPlusOneTerritory.map((country, index) => (
                 <Marker key={index} position={ [country.lat, country.lng]}>
                     <Popup>
+                        {country.flag} {country.name} <br />
                         {country.official ? 'Official Spanish-speaking country' : 'Significant Spanish influence'} <br />
                         {'Click here to learn more!'}
                     </Popup>
