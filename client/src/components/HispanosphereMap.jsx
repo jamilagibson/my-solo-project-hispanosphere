@@ -7,6 +7,13 @@ import 'leaflet/dist/leaflet.css'
 //import countries array to map over data and render markers dynamically
 import countriesPlusOneTerritory from '../data/countriesPlusOneTerritory'
 
+//import global Leaflet object 'L'
+import L from 'leaflet';
+
+//define buonds so all country markers will show at every re-render
+const bounds = L.latLngBounds(
+    countriesPlusOneTerritory.map( (country) => [country.lat, country.lng])
+);
 //define functional component
 const HispanosphereMap = () => {
 
@@ -45,8 +52,10 @@ const HispanosphereMap = () => {
         //     style={ { height: '80vh', width: '100%' } } //map styling
         // >
         <MapContainer
-            center={ [15, -20] } //centered between Europe and Africa
-            zoom={ 2.5 } //zoomed out enough to show both markers
+            bounds={ bounds }
+            scrollWheelZoom={ true }
+            // center={ [15, -20] } //centered between Europe and Africa
+            // zoom={ 2.5 } //zoomed out enough to show both markers
             style={ { height: '80vh', width: '100%'} } //map styling
         >
             {/* add base map tiles from OpenStreetMap (open source alt to Google Maps) */}
