@@ -57,62 +57,58 @@ function ExploreCountry() {
 
     //render JSX when user is routed to ExploreCountry from marker popups "clidk here"
     return (
-        //TailwindCSS padding p-4; ADD MORE STYLING HERE such as background border, etc
-        <div className="p-6 max-w-4xl mx-auto">
-            <button
-              onClick={() => navigate('/')}
-              className="mb-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-            >
-              ⬅️ Back to Map
-            </button>
-            {/* TailwindCSS styling for heading */}
-            <h2 className="text-xl font-semibold mb-2">
-                {/* render full name of country */}
-                You're exploring {country.name}
-            </h2>
-            
-      {/* ✅ If funFacts exist, render them as a list */}
-      {country.funFacts?.length > 0 && (
-        <div className="mb-6">
-          <h3 className="text-xl font-semibold">Fun Facts</h3>
-          <ul className="list-disc ml-6">
-            {country.funFacts.map((fact, idx) => (
-              <li key={idx}>{fact}</li> // Loop through and display each fact
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* ✅ Dynamically render each subtopic and its content */}
-      {country.subtopics && (
-        <div className="space-y-6">
-          {
-            // Convert subtopics object to array of [key, value] pairs and loop through
-            Object.entries(country.subtopics).map(([key, subtopic]) => (
-              <div key={key} className="border rounded-lg p-4 shadow-md bg-white">
-                {/* ✅ Subtopic title and content */}
+      <div className="p-6 max-w-4xl mx-auto bg-white text-blue-900">
+        <button
+          onClick={() => navigate('/')}
+          className="mb-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+        >
+          ⬅️ Back to Map
+        </button>
+  
+        <h2 className="text-3xl font-bold text-red-700 mb-4">
+          You're exploring {country.name}
+        </h2>
+  
+        {/* ✅ If funFacts exist, render them as a list */}
+        {/* {country.funFacts?.length > 0 && (
+          <div className="mb-6 bg-yellow-100 text-red-800 p-4 rounded shadow-md">
+            <h3 className="text-xl font-semibold mb-2">Fun Facts</h3>
+            <ul className="list-disc ml-6">
+              {country.funFacts.map((fact, idx) => (
+                <li key={idx}>{fact}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+   */}
+        {/* ✅ Dynamically render each subtopic and its content */}
+        {country.subtopics && (
+          <div className="space-y-6">
+            {Object.entries(country.subtopics).map(([key, subtopic]) => (
+              <div
+                key={key}
+                className="border rounded-lg p-4 shadow-md bg-blue-600 text-white"
+              >
                 <h4 className="text-lg font-semibold mb-2">{subtopic.title}</h4>
                 <p className="mb-2">{subtopic.content}</p>
-
-                {/* ✅ Optionally render a YouTube video if one exists */}
+  
                 {subtopic.url && (
                   <a
                     href={subtopic.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 underline block mt-2"
+                    className="text-yellow-300 hover:text-yellow-200 underline block mt-2"
                   >
                     🎵 Listen to "{subtopic.songTitle}" by {subtopic.artist} on YouTube
                   </a>
-                 )}
+                )}
               </div>
-            ))
-          }
-        </div>
-      )}
-        </div>
-
+            ))}
+          </div>
+        )}
+      </div>
     );
-};
+  };
+  
 
 export default ExploreCountry
