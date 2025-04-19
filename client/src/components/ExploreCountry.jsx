@@ -83,29 +83,41 @@ function ExploreCountry() {
    */}
         {/* ✅ Dynamically render each subtopic and its content */}
         {country.subtopics && (
-          <div className="space-y-6">
-            {Object.entries(country.subtopics).map(([key, subtopic]) => (
-              <div
-                key={key}
-                className="border rounded-lg p-4 shadow-md bg-blue-600 text-white"
-              >
-                <h4 className="text-lg font-semibold mb-2">{subtopic.title}</h4>
-                <p className="mb-2">{subtopic.content}</p>
-  
-                {subtopic.url && (
-                  <a
-                    href={subtopic.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-yellow-300 hover:text-yellow-200 underline block mt-2"
-                  >
-                    🎵 Listen to "{subtopic.songTitle}" by {subtopic.artist} on YouTube
-                  </a>
-                )}
-              </div>
+  <div className="space-y-6">
+    {Object.entries(country.subtopics).map(([key, subtopic]) => (
+      <div
+        key={key}
+        className="border rounded-lg p-4 shadow-md bg-blue-600 text-white"
+      >
+        <h4 className="text-lg font-semibold mb-2">{subtopic.title}</h4>
+
+        {/* Render list if it's a list-type subtopic like funFacts, otherwise render content */}
+        {subtopic.list?.length > 0 ? (
+          <ul className="list-disc ml-6 mb-2 list-none pl-0">
+            {subtopic.list.map((item, idx) => (
+              <li key={idx}>{item}</li>
             ))}
-          </div>
+          </ul>
+        ) : (
+          <p className="mb-2">{subtopic.content}</p>
         )}
+
+        {/* Render song info if present */}
+        {subtopic.url && (
+          <a
+            href={subtopic.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-yellow-300 hover:text-yellow-200 underline block mt-2"
+          >
+            🎵 Listen to "{subtopic.songTitle}" by {subtopic.artist} on YouTube
+          </a>
+        )}
+      </div>
+    ))}
+  </div>
+)}
+
       </div>
     );
   };
