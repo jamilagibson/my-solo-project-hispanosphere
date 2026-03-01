@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Spinner from './Spinner';
 
 function ExploreCountry() {
   const { code } = useParams();
@@ -25,9 +26,22 @@ function ExploreCountry() {
     fetchCountry();
   }, [code]);
 
-  if (loading) return <p className="text-primary">Loading...</p>;
-  if (error) return <p className="text-secondary">{error}</p>;
-  if (!country) return <p>No data found!</p>;
+  if (loading) return <div style={{ background: '#1e2a47', minHeight: '100vh' }}><Spinner message="Loading country..." /></div>;
+
+  if (error) return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#1e2a47', gap: '0.75rem' }}>
+      <span style={{ fontSize: '2.5rem' }}>🌎</span>
+      <p style={{ color: '#ff5f5f', fontWeight: '600', fontSize: '1.1rem', margin: 0 }}>Could not load country data</p>
+      <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0 }}>Make sure the server is running on port 8080 and try refreshing.</p>
+    </div>
+  );
+
+  if (!country) return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#1e2a47', gap: '0.75rem' }}>
+      <span style={{ fontSize: '2.5rem' }}>🗺️</span>
+      <p style={{ color: '#94a3b8', fontWeight: '600', fontSize: '1.1rem', margin: 0 }}>No data found for this country yet.</p>
+    </div>
+  );
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-light-bg text-dark-bg">

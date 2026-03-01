@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
+import Spinner from './Spinner';
 
 const HispanosphereMap = () => {
   const [countries, setCountries] = useState([]);
@@ -46,16 +47,18 @@ const HispanosphereMap = () => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh', background: '#1a1a2e', color: '#fff', fontSize: '1.25rem' }}>
-        Loading map...
+      <div style={{ background: '#1a1a2e', height: '90vh' }}>
+        <Spinner message="Loading map..." />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh', background: '#1a1a2e', color: '#ff5f5f', fontSize: '1.25rem' }}>
-        {error}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '90vh', background: '#1a1a2e', gap: '0.75rem' }}>
+        <span style={{ fontSize: '2.5rem' }}>🌐</span>
+        <p style={{ color: '#ff5f5f', fontWeight: '600', fontSize: '1.1rem', margin: 0 }}>Could not load the map</p>
+        <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0 }}>Make sure the server is running on port 8080 and try refreshing.</p>
       </div>
     );
   }
