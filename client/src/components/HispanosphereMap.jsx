@@ -1,85 +1,79 @@
-//import leaflet components from react-leaflet
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-
-//import leaflet's css so map tiles render correctly
-import 'leaflet/dist/leaflet.css' 
-
-//import countries array to map over data and render markers dynamically
-import countriesPlusOneTerritory from '../data/countriesPlusOneTerritory'
-
-//import global Leaflet object 'L'
+import 'leaflet/dist/leaflet.css';
+import countriesPlusOneTerritory from '../data/countriesPlusOneTerritory';
 import L from 'leaflet';
 
-//define buonds so all country markers will show at every re-render
 const bounds = L.latLngBounds(
-    countriesPlusOneTerritory.map( (country) => [country.lat, country.lng])
+  countriesPlusOneTerritory.map((country) => [country.lat, country.lng])
 );
-//define functional component
+
 const HispanosphereMap = () => {
+  // Helper function for popup messages
+  const getPopupMessage = (country) => {
+    let message = '';
 
-    // add helper func getPopUpMessage for 3 different cases
-    const getPopupMessage = (country) => {
-        
-    //empty 'message' string to be re-assigned based on conditional
-    let message = "";
-
-    if (country.name === "Puerto Rico") {
-    message = "Aha! Puerto Rico is a U.S. Territory—NOT a country.";
+    if (country.name === 'Puerto Rico') {
+      message = 'Aha! Puerto Rico is a U.S. Territory—NOT a country.';
     } else {
-    message = country.official
-      ? "Official Spanish-speaking country"
-      : "Significant Spanish influence";
+      message = country.official
+        ? 'Official Spanish-speaking country'
+        : 'Significant Spanish influence';
     }
 
-  //Return shared JSX using that message
+    return (
+      <div className="text-sm text-gray-800">
+        <p>{country.flag} {country.name}</p>
+        <p className="font-semibold">{message}</p>
+        <p>
+          Click{' '}
+          <a
+            href={`/explore/${country.code}`}
+            className="text-blue-600 hover:text-blue-800 underline"
+          >
+            here
+          </a>{' '}
+          to learn more!
+        </p>
+      </div>
+    );
+  };
+
   return (
-    <>
-      {country.flag} {country.name} <br />
-      {message} <br />
-      Click <a href={`/explore/${country.code}`} className="text-blue-600 underline">here </a> to learn more!
-    </>
+    <div className="container mx-auto my-8 px-0 bg-gray-900"> {/* Dark gray background */}
+      <div className="relative">
+        <MapContainer
+          bounds={bounds}
+          scrollWheelZoom={true}
+          style={{ height: '90vh', width: '100%' }} // Set width to 100% to stretch across the screen
+        >
+          {/* TileLayer for OpenStreetMap */}
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="&copy; OpenStreetMap contributors"
+          />
+
+          {/* Render country markers dynamically */}
+          {countriesPlusOneTerritory.map((country, index) => (
+            <Marker key={index} position={[country.lat, country.lng]}>
+              <Popup>
+                {getPopupMessage(country)}
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+
+        {/* Optional: Floating action button */}
+        <div className="absolute bottom-8 right-8">
+          <a
+            href="#"
+            className="bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out"
+          >
+            <span className="text-xl">🗺️</span>
+          </a>
+        </div>
+      </div>
+    </div>
   );
 };
 
-    return (
-        //initialize MapContainer as main wrapper for map
-        //center: determines lat/lng where map initially loads
-        //zoom: determines how close map is (lower = zoomed out)
-        //style: sets size of map
-        // <MapContainer //commented out for comparison to centering Spain and E.Q. below
-        //     center={ [10, -60] } //centered on Spain
-        //     zoom={2.5} //zoom based on size of Spain
-        //     style={ { height: '80vh', width: '100%' } } //map styling
-        // >
-        <MapContainer
-            bounds={ bounds }
-            scrollWheelZoom={ true }
-            // center={ [15, -20] } //centered between Europe and Africa
-            // zoom={ 2.5 } //zoomed out enough to show both markers
-            style={ { height: '80vh', width: '100%'} } //map styling
-        >
-            {/* add base map tiles from OpenStreetMap (open source alt to Google Maps) */}
-            <TileLayer 
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; OpenStreetMap contributors'
-            />
-
-            {/* map over countries array of obj to render markers dynamically */}
-            {countriesPlusOneTerritory.map((country, index) => (
-                <Marker key={index} position={ [country.lat, country.lng]}>
-                    <Popup>
-                        {getPopupMessage(country)};
-                    </Popup>
-                </Marker>
-            ))}
-           
-        </MapContainer>
-    );
-};
-
-// Export component to be used in App.jsx
 export default HispanosphereMap;
-
-// {country.flag} {country.name} <br />
-//                         {country.official ? 'Official Spanish-speaking country' : 'Significant Spanish influence'} <br />
-//                         {'Click here to learn more!'}
