@@ -6,27 +6,31 @@ import Country from '../models/Country.js';
 //instantiate new express router
 const router = express.Router();
 
-//define GET endpoint to return data for specific country using country code (example: GQ)
-router.get('/:code', async (req, res) => {
-    //extract country code from URL params
-    const { code } = req.params;
-
+//GET all countries
+router.get('/', async (req, res) => {
     try {
-        //Look up country code in database by uppercase code
-        const country = await Country.findOne ({ code: code.toUpperCase() });
-
-        //If country not found, send 404 res
-        if (!country) {
-            return res.status(404).json({ message: 'Country not found' });
-        }
-
-        //otherwise, return country data as JSON
-        res.json(country);
+        const countries = await Country.find();
+        res.json(countries);
     } catch (err) {
-        //if there's server or database err, send 500 res
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 });
 
-//Export router to be used in server.js
+//GET single country by code
+router.get('/:code', async (req, res) => {
+    const { code } = req.params;
+
+    try {
+        const country = await Country.findOne({ code: code.toUpperCase() });
+
+        if (!country) {
+            return res.status(404).json({ message: 'Country not found' });
+        }
+
+        res.json(country);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+});
+
 export default router;

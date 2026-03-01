@@ -1,14 +1,20 @@
+import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import countriesPlusOneTerritory from '../data/countriesPlusOneTerritory';
-import L from 'leaflet';
-
-const bounds = L.latLngBounds(
-  countriesPlusOneTerritory.map((country) => [country.lat, country.lng])
-);
+import axios from 'axios';
 
 const HispanosphereMap = () => {
-  // Helper function for popup messages
+  const [countries, setCountries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/countries')
+      .then(res => setCountries(res.data))
+      .catch(() => setError('Could not load map data. Is the server running?'))
+      .finally(() => setLoading(false));
+  }, []);
+
   const getPopupMessage = (country) => {
     let message = '';
 
@@ -38,41 +44,42 @@ const HispanosphereMap = () => {
     );
   };
 
-  return (
-    <div className="container mx-auto my-8 px-0 bg-gray-900"> {/* Dark gray background */}
-      <div className="relative">
-        <MapContainer
-          bounds={bounds}
-          scrollWheelZoom={true}
-          style={{ height: '90vh', width: '100%' }} // Set width to 100% to stretch across the screen
-        >
-          {/* TileLayer for OpenStreetMap */}
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution="&copy; OpenStreetMap contributors"
-          />
-
-          {/* Render country markers dynamically */}
-          {countriesPlusOneTerritory.map((country, index) => (
-            <Marker key={index} position={[country.lat, country.lng]}>
-              <Popup>
-                {getPopupMessage(country)}
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
-
-        {/* Optional: Floating action button */}
-        <div className="absolute bottom-8 right-8">
-          <a
-            href="#"
-            className="bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out"
-          >
-            <span className="text-xl">🗺️</span>
-          </a>
-        </div>
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh', background: '#1a1a2e', color: '#fff', fontSize: '1.25rem' }}>
+        Loading map...
       </div>
-    </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh', background: '#1a1a2e', color: '#ff5f5f', fontSize: '1.25rem' }}>
+        {error}
+      </div>
+    );
+  }
+
+  return (
+    <MapContainer
+      center={[15, -30]}
+      zoom={2}
+      scrollWheelZoom={true}
+      style={{ height: '90vh', width: '100%' }}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution="&copy; OpenStreetMap contributors"
+      />
+
+      {countries.map((country) => (
+        <Marker key={country.code} position={[country.lat, country.lng]}>
+          <Popup>
+            {getPopupMessage(country)}
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
   );
 };
 
