@@ -7,7 +7,12 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+
+import countryRoutes from './routes/countryRoutes.js';
+
+//load environment var
 dotenv.config();
+
 // create app instance
 const app = express();
 
@@ -19,10 +24,13 @@ const corsOptions = {
     origin: ["http://localhost:5173"],
 };
 
-//initialize app to use corsOptions; allows only Vite dev server to make requests
-app.use(cors(corsOptions));
+//MIDDLEWARE
+// initialize app to use corsOptions; allows only Vite dev server to make requests
+app.use(cors(corsOptions)); //allow cross-origin requests from front end
 
-app.use(express.json());
+app.use(express.json()); //parse incoming JSON requests
+
+app.use('/api/countries', countryRoutes); //Register API routes under/api/countries
 
 app.get('/', (req, res) => {
     res.send('Hispanosphere backend is running');
