@@ -68,11 +68,14 @@ const HispanosphereMap = () => {
       center={[15, -30]}
       zoom={2}
       scrollWheelZoom={true}
+      maxBounds={[[-90, -180], [90, 180]]}
+      maxBoundsViscosity={1.0}
       style={{ height: '90vh', width: '100%' }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&copy; OpenStreetMap contributors"
+        noWrap={true}
       />
 
       {countries.map((country) => (
