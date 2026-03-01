@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Spinner from './Spinner';
 
 const CountryList = () => {
   const navigate = useNavigate();
@@ -17,16 +18,18 @@ const CountryList = () => {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#1e2a47', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '1.25rem' }}>
-        Loading countries...
+      <div style={{ background: '#1e2a47', minHeight: '100vh' }}>
+        <Spinner message="Loading countries..." />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div style={{ minHeight: '100vh', background: '#1e2a47', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ff5f5f', fontSize: '1.25rem' }}>
-        {error}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#1e2a47', gap: '0.75rem' }}>
+        <span style={{ fontSize: '2.5rem' }}>🌎</span>
+        <p style={{ color: '#ff5f5f', fontWeight: '600', fontSize: '1.1rem', margin: 0 }}>Could not load countries</p>
+        <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0 }}>Make sure the server is running on port 8080 and try refreshing.</p>
       </div>
     );
   }
@@ -48,7 +51,7 @@ const CountryList = () => {
 
       {/* Official Spanish-speaking countries */}
       <section style={{ maxWidth: '1200px', margin: '0 auto 3rem' }}>
-        <h2 style={{ color: '#ffbc42', fontSize: '1.2rem', fontWeight: '700', marginBottom: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <h2 style={{ color: '#4ade80', fontSize: '1.2rem', fontWeight: '700', marginBottom: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
           Official Spanish-Speaking Countries
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
