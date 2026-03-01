@@ -7,7 +7,7 @@ const HomePage = () => {
     <div style={{ minHeight: '100vh', background: '#1e2a47', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', textAlign: 'center' }}>
 
       {/* Logo */}
-      <div style={{ fontSize: '5rem', marginBottom: '1rem' }}>🌎</div>
+      <div aria-hidden="true" style={{ fontSize: '5rem', marginBottom: '1rem' }}>🌎</div>
 
       {/* App Name */}
       <h1 style={{ fontSize: '2.5rem', fontWeight: '800', color: '#ff5f5f', marginBottom: '0.5rem', lineHeight: '1.2' }}>
@@ -52,7 +52,7 @@ const HomePage = () => {
           onMouseOver={e => e.currentTarget.style.background = '#e04d4d'}
           onMouseOut={e => e.currentTarget.style.background = '#ff5f5f'}
         >
-          Explore the Map 🗺️
+          Explore the Map <span aria-hidden="true">🗺️</span>
         </button>
 
         <button
@@ -71,7 +71,7 @@ const HomePage = () => {
           onMouseOver={e => { e.currentTarget.style.background = '#ffbc42'; e.currentTarget.style.color = '#1e2a47'; }}
           onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#ffbc42'; }}
         >
-          Browse Countries 📋
+          Browse Countries <span aria-hidden="true">📋</span>
         </button>
       </div>
     </div>

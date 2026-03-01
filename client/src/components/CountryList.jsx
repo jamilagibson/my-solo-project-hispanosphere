@@ -63,12 +63,22 @@ const CountryList = () => {
         </p>
 
         {/* Toggle */}
-        <div style={{ display: 'inline-flex', gap: '0.5rem' }}>
-          <button style={toggleBtnStyle(view === 'list')} onClick={() => setView('list')}>
-            📋 List View
+        <div role="group" aria-label="View toggle" style={{ display: 'inline-flex', gap: '0.5rem' }}>
+          <button
+            style={toggleBtnStyle(view === 'list')}
+            onClick={() => setView('list')}
+            aria-pressed={view === 'list'}
+            aria-label="Switch to list view"
+          >
+            <span aria-hidden="true">📋</span> List View
           </button>
-          <button style={toggleBtnStyle(view === 'map')} onClick={() => setView('map')}>
-            🗺️ Map View
+          <button
+            style={toggleBtnStyle(view === 'map')}
+            onClick={() => setView('map')}
+            aria-pressed={view === 'map'}
+            aria-label="Switch to map view"
+          >
+            <span aria-hidden="true">🗺️</span> Map View
           </button>
         </div>
       </div>
@@ -89,6 +99,7 @@ const CountryList = () => {
                 <button
                   key={country.code}
                   onClick={() => navigate(`/explore/${country.code}`)}
+                  aria-label={`Explore ${country.name} — official Spanish-speaking country`}
                   style={{
                     background: '#162033',
                     border: '1px solid #2d3f5e',
@@ -125,6 +136,7 @@ const CountryList = () => {
                 <button
                   key={country.code}
                   onClick={() => navigate(`/explore/${country.code}`)}
+                  aria-label={`Explore ${country.name} — notable Spanish influence`}
                   style={{
                     background: '#162033',
                     border: '1px solid #2d3f5e',
