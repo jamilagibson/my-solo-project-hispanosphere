@@ -51,7 +51,7 @@ const CountryList = () => {
 
       {/* Official Spanish-speaking countries */}
       <section style={{ maxWidth: '1200px', margin: '0 auto 3rem' }}>
-        <h2 style={{ color: '#4ade80', fontSize: '1.2rem', fontWeight: '700', marginBottom: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <h2 style={{ color: '#ffbc42', fontSize: '1.2rem', fontWeight: '700', marginBottom: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
           Official Spanish-Speaking Countries
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
