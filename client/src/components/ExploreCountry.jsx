@@ -3,13 +3,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Spinner from './Spinner';
 
-// Define subtopics (for now statically)
-const subtopics = [
-  "Pop culture", "Media", "Music", "Fashion", "Art", "Literature", "Sports", "Cuisine", 
-  "News", "Politics", "History", "People",
-  "Landmarks", "Geography", "Touristy things to do", "Local Jargon"
-];
-
 function ExploreCountry() {
   const { code } = useParams();
   const navigate = useNavigate();
@@ -58,11 +51,11 @@ function ExploreCountry() {
       >
         ⬅️ Back to Map
       </button>
-  
+
       <h2 className="text-3xl font-bold text-primary mb-4">
-        You're exploring {country.name}
+        {country.flag} You're exploring {country.name}
       </h2>
-  
+
       {/* Fun Facts Section */}
       {country.subtopics?.funFacts?.list?.length > 0 && (
         <div className="mb-6 bg-yellow-100 text-red-800 p-4 rounded shadow-md">
@@ -74,30 +67,32 @@ function ExploreCountry() {
           </ul>
         </div>
       )}
-  
-      {/* Dynamically Render Other Subtopics */}
+
+      {/* Dynamically Render Other Subtopics (skip funFacts — rendered above) */}
       {country.subtopics && (
         <div className="space-y-6">
-          {Object.entries(country.subtopics).map(([key, subtopic]) => (
-            <div
-              key={key}
-              className="border rounded-lg p-4 shadow-card bg-primary text-white"
-            >
-              <h4 className="text-lg font-semibold mb-2">{subtopic.title}</h4>
-              <p className="mb-2">{subtopic.content}</p>
+          {Object.entries(country.subtopics)
+            .filter(([key]) => key !== 'funFacts')
+            .map(([key, subtopic]) => (
+              <div
+                key={key}
+                className="border rounded-lg p-4 shadow-card bg-primary text-white"
+              >
+                <h4 className="text-lg font-semibold mb-2">{subtopic.title}</h4>
+                <p className="mb-2">{subtopic.content}</p>
 
-              {subtopic.url && (
-                <a
-                  href={subtopic.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-accent hover:text-yellow-200 underline block mt-2 transition-all duration-300"
-                >
-                  🎵 Listen to "{subtopic.songTitle}" by {subtopic.artist} on YouTube
-                </a>
-              )}
-            </div>
-          ))}
+                {subtopic.url && (
+                  <a
+                    href={subtopic.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:text-yellow-200 underline block mt-2 transition-all duration-300"
+                  >
+                    🎵 Listen to "{subtopic.songTitle}" by {subtopic.artist} on YouTube
+                  </a>
+                )}
+              </div>
+            ))}
         </div>
       )}
     </div>
