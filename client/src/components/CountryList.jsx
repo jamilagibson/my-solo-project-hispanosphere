@@ -38,12 +38,6 @@ const CountryList = () => {
     <div style={{ minHeight: '100vh', background: '#1e2a47', padding: '2rem' }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-        <button
-          onClick={() => navigate('/')}
-          style={{ background: 'none', border: 'none', color: '#ffbc42', cursor: 'pointer', fontSize: '0.9rem', marginBottom: '1rem', textDecoration: 'underline' }}
-        >
-          ← Back to Home
-        </button>
         <h1 style={{ fontSize: '2rem', fontWeight: '800', color: '#ff5f5f', marginBottom: '0.5rem' }}>
           🌎 Browse Countries
         </h1>

@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
 import axios from 'axios';
-
-const DEFAULT_CENTER = [10, -30];
-const DEFAULT_ZOOM = 2;
 
 const HispanosphereMap = () => {
   const [countries, setCountries] = useState([]);
@@ -64,33 +60,26 @@ const HispanosphereMap = () => {
     );
   }
 
-  const bounds = countries.length > 0
-    ? L.latLngBounds(countries.map(c => [c.lat, c.lng]))
-    : null;
-
   return (
-    <div style={{ background: '#111827' }}>
-      <MapContainer
-        bounds={bounds || undefined}
-        center={bounds ? undefined : DEFAULT_CENTER}
-        zoom={bounds ? undefined : DEFAULT_ZOOM}
-        scrollWheelZoom={true}
-        style={{ height: '90vh', width: '100%' }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&copy; OpenStreetMap contributors"
-        />
+    <MapContainer
+      center={[15, -30]}
+      zoom={2}
+      scrollWheelZoom={true}
+      style={{ height: '90vh', width: '100%' }}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution="&copy; OpenStreetMap contributors"
+      />
 
-        {countries.map((country) => (
-          <Marker key={country.code} position={[country.lat, country.lng]}>
-            <Popup>
-              {getPopupMessage(country)}
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
-    </div>
+      {countries.map((country) => (
+        <Marker key={country.code} position={[country.lat, country.lng]}>
+          <Popup>
+            {getPopupMessage(country)}
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
   );
 };
 

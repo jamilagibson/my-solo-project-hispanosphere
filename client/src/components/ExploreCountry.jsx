@@ -40,7 +40,7 @@ function ExploreCountry() {
   return (
     <div className="p-6 max-w-4xl mx-auto bg-light-bg text-dark-bg">
       <button
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/map')}
         className="mb-4 px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-all duration-300"
       >
         ⬅️ Back to Map
